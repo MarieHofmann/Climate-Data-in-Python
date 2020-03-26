@@ -23,9 +23,7 @@
 
 
 # Adds a searchbar link
-- title: Search this book
-  search: true
-  not_numbered: true
+- search: true
 
 # Divider for meta-pages and content page
 - divider: true
