@@ -1,0 +1,54 @@
+---
+redirect_from:
+  - "03-01-defnetcdf"
+interact_link: content/D:\Users\Marie\Dokumente\01_UNI\Master\Wissenschaftliche_Mitarbeit_Fabien\chapter1\content\03_01_DefNetCDF.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  What is a NetCDF File?
+prev_page:
+  url: /03_NetCDFFiles.html
+  title: |-
+    NetCDF Files
+next_page:
+  url: /03_02_ReadGetUnderstand.html
+  title: |-
+    How to get it, read it, understand it
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+<main class="jupyter-page">
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.1-What-is-a-NetCDF-File?">3.1 What is a NetCDF File?<a class="anchor-link" href="#3.1-What-is-a-NetCDF-File?"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Most of today's meteorological data are stored in the NetCDF format (<code>*.nc</code>), a format that supports the creation, access, and sharing of array-oriented scientific data. We will, from now on, work with this type of data storage.</p>
+<p>In the python basics chapter, we introduced numpy arrays as a new tool for arithmetics and vector computation. Since the climate data we work with is always multi-dimensional and can be stored in such an array, you might think that numpy arrays were the perfect tool to store our data. So why do we still use NetCDF Files for storing climatological and meteorological data? What is the main difference to a normal numpy array?</p>
+<p>NetCDF Files can be read by the python module <code>xarray</code>! And those xarrays are pretty cool:</p>
+<p>Xarray introduces labels in the form of dimensions, coordinates and attributes on top of raw NumPy-like multidimensional arrays. This allows for a more intuitive, more concise, and less error-prone developer experience. 
+That means: In a numpy array you could only store e.g. the temperature data of all latitudes and longitudes for a certain time in an array. However, real-world datasets are usually more than just raw numbers: how would you know, where each of the elements in your array is located in a spatial grid? Here comes xarray: you can store a temperature field <strong>and</strong> a label which encodes information about how the array values map to locations in the spatial grid!</p>
+<p>So know all of a sudden, an axis that would have been called 0,1,2,... in a numpy array gets a meaningful name such as "longitude", "latitude" or "time"! That helps us a lot when dealing with this huge amount of data stored in NetCDF files. Still, they behave like normal arrays, which means you can do normal arithmetics and vector computations with them!</p>
+<p>Another advantage of an xarray in comparison to numpy arrays is, that you can store metadata on your object, e.g. what unit your data has or who provided the dataset,...
+Furthermore, a NumPy array can only have one data type, while NetCDF can hold heterogeneous data in one array.</p>
+<p>We will be able to read the NetCDF files in a python interpreter which will transform them into a xarray and do computations and plots with them. 
+Let's get started and see how that works!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+</main>

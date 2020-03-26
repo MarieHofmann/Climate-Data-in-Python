@@ -1,0 +1,650 @@
+---
+redirect_from:
+  - "03-02-readgetunderstand"
+interact_link: content/D:\Users\Marie\Dokumente\01_UNI\Master\Wissenschaftliche_Mitarbeit_Fabien\chapter1\content\03_02_ReadGetUnderstand.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  How to get it, read it, understand it
+prev_page:
+  url: /03_01_DefNetCDF.html
+  title: |-
+    What is a NetCDF File?
+next_page:
+  url: /03_03_Work.html
+  title: |-
+    How to work with it
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+<main class="jupyter-page">
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.2-NetCDF-Data---How-to-get-it,-read-it-and-understand-it">3.2 NetCDF Data - How to get it, read it and understand it<a class="anchor-link" href="#3.2-NetCDF-Data---How-to-get-it,-read-it-and-understand-it"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.2.1-Importing-the-Modules-and-some-Options">3.2.1 Importing the Modules and some Options<a class="anchor-link" href="#3.2.1-Importing-the-Modules-and-some-Options"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Before we can start to look at our data, we will always need to import our three most important modules: <code>matplotlib</code>, <code>numpy</code> and <code>xarray</code>. We will do some more presettings, so everything will look well sized and nice in our notebook.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Display the plots in the notebook:</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Import the tools we are going to need today:</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># plotting library</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># numerical library</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>  <span class="c1"># netCDF library</span>
+<span class="kn">import</span> <span class="nn">cartopy</span>  <span class="c1"># Map projections libary, needed to display world maps</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>  <span class="c1"># Projections list</span>
+<span class="c1"># Some defaults:</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Default plot size</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># avoid to print very large arrays on screen</span>
+<span class="c1"># The commands below are to ignore certain warnings.</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.2.2-Get-NetCDF-Data">3.2.2 Get NetCDF Data<a class="anchor-link" href="#3.2.2-Get-NetCDF-Data"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The data we are going to use in this chapter is from ECMWF. We will use a dataset, downloaded with the methods explained in the chapter 02.</p>
+<p>The dataset contains the monthly means of daily means of the 2 meter temperature as well as the total precipitation. You can either get the data <a href="">here</a> or download it on your own, following the instructions of the previous chapter!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.2.3-Read-NetCDF-Data">3.2.3 Read NetCDF Data<a class="anchor-link" href="#3.2.3-Read-NetCDF-Data"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>NetCDF files are binary files, which means that you can't just open them in a text editor. You need a special reader for it.</p>
+<p>To handle NetCDF data, python comes with the module <a href="http://xarray.pydata.org/en/stable/">xarray</a>. We already imported it before as <code>xr</code>! Xarray provides a lot of useful methods. The one to read NetCDF files is <code>xr.open_dataset(datadir)</code>. See the example underneath to understand how it works!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dataDIR</span> <span class="o">=</span> <span class="s1">&#39;./data/ERA5-LowRes-MonthlyAvg-t2m_tp.nc&#39;</span> 
+<span class="c1"># the path to which you saved the netCDF file in the step before</span>
+<span class="c1"># Here I downloaded the file in the &quot;data&quot; folder which I placed in the same folder as the notebook --&gt; the dot &quot;.&quot; </span>
+<span class="c1"># in the beginning means &quot;look in the current foler&quot;</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">dataDIR</span><span class="p">)</span> <span class="c1"># the data of the netCDF File will be stored in &quot;ds&quot; (dataset)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Note</strong>: you'll have to give an absolute or relative path to the file for this to work. For example <code>'C:\PATH\TO\FILE\ERA5-MonthlyAvg-2tm_tp-75-rolled.nc'</code> in windows.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's see, what our <strong>ds</strong> object looks like!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<pre>&lt;xarray.Dataset&gt;
+Dimensions:    (latitude: 241, longitude: 480, time: 480)
+Coordinates:
+  * longitude  (longitude) float32 -179.625 -178.875 ... 178.875 179.625
+  * latitude   (latitude) float32 90.0 89.25 88.5 87.75 ... -88.5 -89.25 -90.0
+  * time       (time) datetime64[ns] 1979-01-01 1979-02-01 ... 2018-12-01
+Data variables:
+    tp         (time, latitude, longitude) float32 ...
+    t2m        (time, latitude, longitude) float32 ...
+Attributes:
+    Conventions:  CF-1.6
+    history:      2019-11-26 14:52:06 GMT by grib_to_netcdf-2.14.0: /opt/ecmw...</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Alright. So let's go through this step by step.</p>
+<p>Our <code>ds</code>is of the type <code>xarray.DataSet</code> (convince yourself above). A<code>xarray.Dataset</code> generally consists of the following key properties:</p>
+<ul>
+<li><strong>Dimensions</strong>: dimension names for each axis (in our case:'latitude', 'longitude', 'month'), specifies the number of elements for each Dimension, e.g. <code>time: 488</code>.</li>
+<li><strong>Coordinates</strong>: a container of arrays (coordinates) that label each point. E.g.: 1-dim arrays of numbers (like a coordinate vector) , DateTime objects (for time labeling), or strings. On the right hand side you can see the actual values that the coordinates have.</li>
+<li><strong>Variables</strong>: a numpy.ndarray holding the array’s values, this is where the actual data is stored! In our case, we can expect three arrays of size [241, 480, 488].</li>
+<li><strong>Attributes</strong>: does not contain any data, is a container that holds arbitrary metadata (attributes), like the title of the data, additional information about the dataset,...</li>
+</ul>
+<p>A <code>xarray.DataSet</code> is a collection of <code>xarray.DataArray</code>s. Each NetCDF file contains such a DataSet.</p>
+<p>So what is a <code>xarray.DataArray</code>?
+It is a multi-dimensional array with labeled or named dimensions. DataArray objects add metadata such as dimension names, coordinates, and attributes (defined below) to underlying “unlabeled” data structures such as our normal numpy arrays.</p>
+<p>In our example above, each <code>xarray.DataArray</code> would consist of one of the listed Data Variables, e.g. <code>t2m</code> the 2 meter temperature. Together those three DataArrays form a <code>xarray.DataSet</code>, which in turn is stored in our downloaded netCDF file.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <strong>xarray logo</strong> gives us a visual understanding of how a xarray Dataset looks like:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="xarraylogo.png" alt="4D-Data: Data of a specific area dependent on height z and time"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="dataset-diagram.png" alt=""></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For us, the most interesting two properties will be the coordinates and the variables. Let's have a closer look at them!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Coordinates">Coordinates<a class="anchor-link" href="#Coordinates"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can adress all the different properties of the <code>xarray.DataArray</code> via the dot <code>.</code> expression:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">time</span> <span class="c1"># adress the coordinate &#39;time&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<pre>&lt;xarray.DataArray &#x27;time&#x27; (time: 480)&gt;
+array([&#x27;1979-01-01T00:00:00.000000000&#x27;, &#x27;1979-02-01T00:00:00.000000000&#x27;,
+       &#x27;1979-03-01T00:00:00.000000000&#x27;, ..., &#x27;2018-10-01T00:00:00.000000000&#x27;,
+       &#x27;2018-11-01T00:00:00.000000000&#x27;, &#x27;2018-12-01T00:00:00.000000000&#x27;],
+      dtype=&#x27;datetime64[ns]&#x27;)
+Coordinates:
+  * time     (time) datetime64[ns] 1979-01-01 1979-02-01 ... 2018-12-01
+Attributes:
+    long_name:  time</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Time</strong> goes from 1979 to 2019 and has a resolution of one month. You can read this out of the data listed to the right of <code>time</code> at the coordinates. The type of the given values is datetime64.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <strong>spatial coordinates</strong> are as easy to understand:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">latitude</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<pre>&lt;xarray.DataArray &#x27;latitude&#x27; (latitude: 241)&gt;
+array([ 90.  ,  89.25,  88.5 , ..., -88.5 , -89.25, -90.  ], dtype=float32)
+Coordinates:
+  * latitude  (latitude) float32 90.0 89.25 88.5 87.75 ... -88.5 -89.25 -90.0
+Attributes:
+    units:      degrees_north
+    long_name:  latitude</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Latitude goes from 90 to -90 and has the unit 'degrees north'. The spatial resolution of this dataset is 0.75°, as you can easily see from the given values.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">longitude</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<pre>&lt;xarray.DataArray &#x27;longitude&#x27; (longitude: 480)&gt;
+array([-179.625, -178.875, -178.125, ...,  178.125,  178.875,  179.625],
+      dtype=float32)
+Coordinates:
+  * longitude  (longitude) float32 -179.625 -178.875 ... 178.875 179.625
+Attributes:
+    units:      degrees_east
+    long_name:  longitude</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Variables">Variables<a class="anchor-link" href="#Variables"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As for coordinates, variables can also be accessed directly from the dataset via the <code>.</code> syntax! By doing this, you will actually extract one DataArray from the whole DataSet. We can try it now for e.g. the <code>t2m</code> variable.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">t2m</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<pre>&lt;xarray.DataArray &#x27;t2m&#x27; (time: 480, latitude: 241, longitude: 480)&gt;
+[55526400 values with dtype=float32]
+Coordinates:
+  * longitude  (longitude) float32 -179.625 -178.875 ... 178.875 179.625
+  * latitude   (latitude) float32 90.0 89.25 88.5 87.75 ... -88.5 -89.25 -90.0
+  * time       (time) datetime64[ns] 1979-01-01 1979-02-01 ... 2018-12-01
+Attributes:
+    units:      K
+    long_name:  2 metre temperature</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <strong>attributes</strong> of a variable are extremely important, they cary the <em>metadata</em> and must be specified by the data provider. Here we can read in which units the variable is defined (K for Kelvin), as well as a description of the variable (the "long_name" attribute), and sometimes also what the valid value range is (not here).</p>
+<p>From the upper description "... values with dtype=float32", we can also see the data type of the values of our data: in our case this is "float32", a floating point number with 32 bits.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">tp</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<pre>&lt;xarray.DataArray &#x27;tp&#x27; (time: 480, latitude: 241, longitude: 480)&gt;
+[55526400 values with dtype=float32]
+Coordinates:
+  * longitude  (longitude) float32 -179.625 -178.875 ... 178.875 179.625
+  * latitude   (latitude) float32 90.0 89.25 88.5 87.75 ... -88.5 -89.25 -90.0
+  * time       (time) datetime64[ns] 1979-01-01 1979-02-01 ... 2018-12-01
+Attributes:
+    units:      m
+    long_name:  Total precipitation</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The total precipitation is given in m! Since mm is the common unit for precipitation data, we will need to calculate that in order to get expected values of precipitation.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tp_mm</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">tp</span>  <span class="o">/</span> <span class="mi">1000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">long_name</span> <span class="c1"># adress the attributes of a variable via a second &#39;.&#39;!</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Total precipitation&#39;</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+</main>

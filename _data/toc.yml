@@ -23,7 +23,7 @@
 
 
 # Adds a searchbar link
-- title: Search
+- title: Search this book
   search: true
   not_numbered: true
 
@@ -34,6 +34,7 @@
 - title: What to expect from this book
   url: 00_WhatToExpect
   not_numbered: true
+
 - title: Getting started with Python
   url: 01_GettingStarted
   sections: 
@@ -41,4 +42,22 @@
     url: 01_01_JupyterNotebooks
   - title: A Python Introduction
     url: 01_02_PythonIntroduction
+
+- title: Downloading Data from the ECMWF server
+  url: 02_DownloadDatafromECMWF
+  sections: 
+  - title: Era-Interim
+    url: 02_01_EraInterim
+  - title: Era5
+    url: 02_02_Era5
+
+- title: NetCDF Files
+  url: 03_NetCDFFiles
+  sections: 
+  - title: What is a NetCDF File?
+    url: 03_01_DefNetCDF
+  - title: How to get it, read it, understand it
+    url: 03_02_ReadGetUnderstand
+  - title: How to work with it
+    url: 03_03_Work
 

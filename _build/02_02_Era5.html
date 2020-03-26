@@ -1,0 +1,249 @@
+---
+redirect_from:
+  - "02-02-era5"
+interact_link: content/D:\Users\Marie\Dokumente\01_UNI\Master\Wissenschaftliche_Mitarbeit_Fabien\chapter1\content\02_02_Era5.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Era5
+prev_page:
+  url: /02_01_EraInterim.html
+  title: |-
+    Era-Interim
+next_page:
+  url: /03_NetCDFFiles.html
+  title: |-
+    NetCDF Files
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+<main class="jupyter-page">
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.2-ERA5">2.2 ERA5<a class="anchor-link" href="#2.2-ERA5"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Why better use ERA5 instead of ERA-Interim? There are several reasons:</p>
+<p>The first and most obvious one: Era-Interim stopped producing data the 31st August 2019. So if you need current data, you will have to use ERA5. Furthermore, ERA-Interim was based on a data assimilation system and a model, which was operational at ECMWF in 2006. ERA5 thus benefits from a decade of developments in model physics, core dynamics and data assimilation relative to ERA-Interim. ERA5 also has a significantly enhanced horizontal resolution (31 km grid spacing compared to 79 km for ERA-Interim) and provides an enhanced number of output parameters, including for example a 100 m wind product. The move from ERA-Interim to ERA5 represents a <strong>step change in overall quality and level of detail</strong>.</p>
+<p>Downloading this newly generated data is quite similar to the process we learned for ERA-Interim:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2.2.1-Registration">2.2.1 Registration<a class="anchor-link" href="#2.2.1-Registration"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To be able to download ERA5 data, you will first have to register at the Climate Data Store (CDS) infrastructure. This can easily be done <a href="https://cds.climate.copernicus.eu/user/register">here</a>. Log in and accept their conditions for the use of data.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2.2.2-How-to-get-the-data">2.2.2 How to get the data<a class="anchor-link" href="#2.2.2-How-to-get-the-data"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Again, there are two ways to get the data: either follow the selection tool of the webpage, or do your own python code.</p>
+<h4 id="For-the-selection-tool:">For the selection tool:<a class="anchor-link" href="#For-the-selection-tool:"> </a></h4><ul>
+<li>Go to the <a href="https://cds.climate.copernicus.eu/cdsapp#!/search?type=dataset">datasets</a> of the C3S Climate Data Store. On the left-hand side menu, you can expand 'Product type' and select the product type of interest. In our case, this is 'Reanalysis' for the ERA5 datasets. Select the dataset you are interested in, e.g. <a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels-monthly-means?tab=overview">"ERA5 monthly averaged data on single levels from 1979 to present"</a>, if you are interested in monthly averages for 2m temperature, surface winds or total precipitation, or <a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-pressure-levels-monthly-means?tab=overview">"ERA5 monthly averaged data on pressure levels from 1979 to present"</a> for data at different heights. </li>
+<li>Click on the tab "download data" and you will get to a similar selection tool as on the ECMWF page. This one is even more flexible, so you will e.g. be able to select more than one year and also more than one variable! </li>
+<li>Once you are done with your selections, accept the Copernicus licence and click on "submit form". A  "your requests" page will be displayed showing the status of your submitted request.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A basic request for 2m temperature and total precipitation for monthly means of the years 1997 and 1998 would look like this:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>import cdsapi
+
+c = cdsapi.Client()
+
+c.retrieve(
+    'reanalysis-era5-single-levels-monthly-means',
+    {
+        'product_type':'monthly_averaged_reanalysis',
+        'variable':['2m_temperature','total_precipitation'],
+        'year':['1997','1998'],
+        'month':['01','02','03','04','05','06','07','08','09','10','11','12'],
+        'time':'00:00',
+        'format':'netcdf'
+    },
+    'download.nc')</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The file downloaded would be calles 'download.nc' in this case. The default resolution is 0.25° x 0.25° !</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="For-the-python-code-request:">For the python code request:<a class="anchor-link" href="#For-the-python-code-request:"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><p>#### Install CDS API on your machine</p>
+<p>If you have Anaconda installed you can install the CDS API by</p>
+
+<pre><code>conda config --add channels conda-forge
+conda install cdsapi</code></pre>
+</li>
+<li><p>#### Save your API-Key</p>
+<p>As before, you will again have to save <a href="https://cds.climate.copernicus.eu/api-how-to">your API-Key</a>. You must be logged in to make this work. Copy paste the two line code into a textfile and save it as '%USERPROFILE%.cdsapirc'. In your windows environment, %USERPROFILE% is usually located at C:\Users\Username folder. In Linux, save it to       '$HOME/.cdsapirc.' Follow the instructions above from "ERA-Interim" if you are not familiar with how to create such a    file, but this time name it '.cdsapirc' instead of '.ecmwfapirc'!</p>
+</li>
+</ul>
+<ul>
+<li>It is <strong>necessary to agree to the Terms of Use of every dataset that you intend to download</strong>.</li>
+</ul>
+<ul>
+<li><p>Attached to each dataset download form, the "Show API request" button displays the python code to be used. Therefore, you can simply follow the instruction from the "selection tool" section above, select your data, agree the terms of Use and click on "Show API request"!</p>
+</li>
+<li><p>#### Refining your CDS API script</p>
+<p>For a <strong>geographical area subset</strong>, use key <code>area</code> in the form <code>'area: [northern Boundary(B), western B, southern B, eastern B]</code>.</p>
+<p>For a <strong>different grid resolution</strong>, use key <code>grid</code>.</p>
+<p>An example for a geographical subset reaching from 50 to 60° N and from -10 to 10° E and a grid resolution of 1°x1°:</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>import cdsapi
+
+c = cdsapi.Client()
+
+c.retrieve(
+    'reanalysis-era5-single-levels-monthly-means',
+    {
+        'product_type':'monthly_averaged_reanalysis',
+        'variable':['2m_temperature','total_precipitation'],
+        'year':['1997','1998'],
+        'month':['01','02','03','04','05','06','07','08','09','10','11','12'],
+        'time':'00:00',
+        'area': [60, -10, 50, 10], # North, West, South, East
+        'grid': [1.0, 1.0], # east-west (longitude) and north-south resolution  (latitude). Default: 0.25 x 0.25
+        'format':'netcdf'
+    },
+    'ERA5_2mt_precip.nc')</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This time, we changed the name from 'donwoad.nc' to something more meaningful.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you download data like in the above example, you will notive that your data goes from 0° to 360° East in terms of longitude. Since a normal world map goes from -180° to 180° E, a more useful dataset would have the same coordinate system.</p>
+<p>We can change the longitudinal axis from 0°-360° to -180°-180° by adding the following to our python program:</p>
+<p><code>'area': [90, -180, -90, 180],</code></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As you see, the whole process of requesting ERA5 data works pretty similar to ERA-Interim. It is even a bit easier: the selection tool works better and you do not have those annoying codes for your parameters anymore!</p>
+<p>In the following sections, we will work with ERA5 data with a grid resolution of 0.75 x 0.75, since a higher resolution would result in a huge amount of data and therefore longer processing times. A resolution of 0.75 x 0.75 is enough for us to have a qualitative look at the data!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+</main>
