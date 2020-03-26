@@ -39,6 +39,9 @@
   url: 00_WhatToExpect
   not_numbered: true
 
+# Divider for meta-pages and content page
+- divider: true
+
 - title: Getting started with Python
   url: 01_GettingStarted
   sections:
