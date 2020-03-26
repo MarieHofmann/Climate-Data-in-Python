@@ -25,12 +25,13 @@
 # Adds a searchbar link
 - title: Search
   search: true
+  not_numbered: true
 
 # Divider for meta-pages and content page
 - divider: true
 
 # Book content
-- title: Whattoexpect
+- title: What to expect from this Book
   url: 00_WhatToExpect
   not_numbered: true
 
