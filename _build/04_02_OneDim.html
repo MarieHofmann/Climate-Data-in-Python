@@ -1,0 +1,251 @@
+---
+redirect_from:
+  - "04-02-onedim"
+interact_link: content/D:\Users\Marie\Dokumente\01_UNI\Master\Wissenschaftliche_Mitarbeit_Fabien\chapter01\content\04_02_OneDim.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Plotting 1D Data
+prev_page:
+  url: /04_01_IntroductionPlotting.html
+  title: |-
+    A general introduction to plotting
+next_page:
+  url: /04_03_2D_Maps.html
+  title: |-
+    Plotting 2D Data - Maps
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+<main class="jupyter-page">
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.2-One-Dimension">4.2 One Dimension<a class="anchor-link" href="#4.2-One-Dimension"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The simplest way to make a plot is to call the <code>xarray.DataArray.plot()</code> method.  Let's do this for the zonal mean of the 2m temperature! Python creates an axes for this plot internally, even though we did not create one on our own!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">t2m</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span><span class="s1">&#39;longitude&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/04_02_OneDim_2_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we see, the labeling nature of an xarray comes in handy for plotting! We did not give any specifications for the axes' labels and still we get a satisfying labeling. Xarray takes the metadata stored in <code>attributes</code>, to label the axes: Latitude was the "long_name" attribute, [degrees_north] the "units" attribute of <code>ds.lat</code>, <code>t2m</code> the variable name!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also plot <strong>multiple lines</strong> into one figure:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">t2m</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;time.month&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;longitude&#39;</span><span class="p">);</span> <span class="c1">#group the dataset by months and average over lon</span>
+<span class="n">grouped</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="c1"># select month 1, plot it</span>
+<span class="n">grouped</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/04_02_OneDim_5_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Although matplotlib already does quite a good job in adjusting the plot, there are still a couple of problems we have to deal with:</p>
+<p>What do those lines stand for?! Why is the title of the plot "month = 7"? If you didn't plot this on your own and knew what you saw, the graphic would be quite useless...</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's improve the above plot a bit! By doing this, we will learn some basic features of a plot:</p>
+<p>First, we want to add a <strong>title</strong>. Notice: we imported matplotlib.pyplot as plt! So we can now work with our plotting library as <code>plt</code>. The library comes with all kinds off necessary stuff and therefore it also has a method <code>plt.title('your_title_here')</code>!</p>
+<p>More editing:</p>
+<p>Define <strong>x/y - Limits</strong>: <code>plt.xlim(startvalue, stopvalue)</code></p>
+<p>Change the <strong>x/y - Label</strong>: <code>plt.ylabel('your_label_name_here')</code></p>
+<p>Change the <strong>x/y - Ticks</strong>: <code>plt.xticks(ticks, [labels])</code>. Ticks: A list of positions at which ticks should be placed. You can pass an empty list to disable xticks. [labels]: A list of explicit labels to place at the given locs. Those are optional, so you do not need to specify them.</p>
+<p>Create a <strong>legend</strong> (if there are multiple lines in one plot): <code>plt.legend()</code>. The plot will automatically generate a legend for you. If you wish to give other names to your lines, you will need to specify them by giving the <code>label = 'your_labelname_here'</code> argument to the plotting method itself. You can change the location of the legend in your plot by giving the optional argument <code>loc = 'your_location_here'</code> to the method. Possible locations are e.g.: 'best' (the library will automatically search for a spot in your plot, where there is room for the legend), 'upper right', 'lower left', 'right', 'center', 'lower center', 'center left' and so on. Have a look at the <a href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend.html#matplotlib.pyplot.legend">legend documentation</a> if you want to get more control on your legends.</p>
+<p>Change the <strong>style of your line</strong>: By giving the following optional arguments to your <code>.plot()</code> method.</p>
+<ul>
+<li><strong>LineStyle</strong>: How your line should look like. Possible values: <code>-</code> Solid line, <code>--</code> Dashed line, <code>:</code> Dotted line, <code>-.</code> Dash-dot line. Default = <code>'-'</code>.</li>
+<li><strong>LineWidth</strong>: Default = 0.5 points, with point = 1/72 inch = 0.351 mm).</li>
+<li><strong>Color</strong>: Color of the line (given as RGB vector oder as String). Possible string values: <code>k</code> black, <code>r</code> red, <code>g</code> green, <code>b</code> blue, <code>c</code> cyan, <code>m</code> magenta, <code>y</code> yellow, <code>w</code> white</li>
+<li><strong>Marker</strong>: Markertype. Possible Markertypes e.g.: <code>+</code>, <code>o</code>, <code>*</code>, <code>.</code>, <code>x</code>, <code>s</code> (square), <code>d</code> (diamond), <code>p</code> (five pointed star). Default = <code>none</code>.</li>
+<li><strong>MarkerSize</strong>: Size of marker in points. Default = 6 points.</li>
+<li><strong>MarkerEdgeColor</strong>: Color of marker border.</li>
+<li><strong>MarkerFaceColor</strong>: Color of marker body.</li>
+</ul>
+<p>You can also insert a <strong>grid</strong> into your plot: <code>plt.grid()</code>. Change the style of your grid lines by specifying the same style keywords as explained for the lineplot above!</p>
+<p>Add a <strong>reference line</strong> for better orientation to the plot: <code>plt.axhline(y)</code> adds a horizontal line across the axis. y is the position in data coordinates of the horizontal line, by default this is 0. You can add further, optional arguments such as <code>color</code>, <code>linestyle</code> or <code>linewidth</code>, etc. They work in the same manner as explained above.</p>
+<p>We could have also set each of those properties via the <code>ax.set</code> syntax that we learned earlier. Anyway, this is an easier way to get the same result: By directly plotting some data, python automatically created an axes for the plot. Since we define our properties directly underneath the plotting command, python knows that we would like to set the properties of the axes we just created, altough we do not concretely formulate that!</p>
+<p>Later, when we have more complicated looking figures that include a couple of subplots as well, it might be easier to use the <code>ax.set</code> syntax in oder to avoid a mess.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's try the new features on the plot from above!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span> <span class="o">=</span> <span class="n">grouped</span> <span class="o">-</span> <span class="mf">273.15</span>
+<span class="n">grouped</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;January&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span> <span class="c1"># plots the Jan line with all settings</span>
+<span class="n">grouped</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;July&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">grouped</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;month&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Annual Avg&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span> <span class="c1">#plot annual avg with a thicker line</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span> <span class="c1"># defines the limits on the x-axis</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;2m Temperature - zonal average&#39;</span><span class="p">)</span> <span class="c1"># plots your title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span> <span class="c1"># plots your legend defined by the &quot;label&quot;-specification of each plot-command</span>
+                       <span class="c1"># at the location that fits best for this plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;° Celcius&#39;</span><span class="p">);</span> <span class="c1"># changes the y-label from the default label to the one you want</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Latitude [° North]&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">((</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">));</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;-.&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/04_02_OneDim_9_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That looks way better! Now we know, what the lines stand for (legend), what is actually plotted (title), and what our axes are. Plus we made the plot nice looking and added an annual average for orientation!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+</main>

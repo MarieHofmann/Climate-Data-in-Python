@@ -1,0 +1,149 @@
+---
+redirect_from:
+  - "04-plotting"
+interact_link: content/D:\Users\Marie\Dokumente\01_UNI\Master\Wissenschaftliche_Mitarbeit_Fabien\chapter01\content\04_Plotting.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Plotting
+prev_page:
+  url: /03_03_Work.html
+  title: |-
+    How to work with it
+next_page:
+  url: /04_01_IntroductionPlotting.html
+  title: |-
+    A general introduction to plotting
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+<main class="jupyter-page">
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-NetCDF-Data---How-to-plot-it">4. NetCDF Data - How to plot it<a class="anchor-link" href="#4.-NetCDF-Data---How-to-plot-it"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we have all the tools to get to the most motivating part of this whole book: learn, how to plot the data and get the output!</p>
+<p>Xarray plotting functionality is a thin wrapper around the popular <strong>matplotlib library</strong>. If you are not familiar with any kind of plotting tool, you can have a look at the <a href="https://matplotlib.org/tutorials/introductory/pyplot.html#sphx-glr-tutorials-introductory-pyplot-py">matplotlib tutorial</a>! It very well explains the basics of plotting.</p>
+<p>Matplotlib syntax and function names were copied as much as possible for xarray plotting, which makes for an easy transition between the two. Therefore you should be able, to plot xarray data, once you learned how to plot with matplotlib. Anyway, we will quickly go through the basics here as well! Matplotlib must be installed and imported, before xarray can plot.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Display the plots in the notebook:</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Import the tools we are going to need today:</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># plotting library</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># numerical library</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>  <span class="c1"># netCDF library</span>
+<span class="kn">import</span> <span class="nn">cartopy</span>  <span class="c1"># Map projections libary, needed to display world maps</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>  <span class="c1"># Projections list</span>
+<span class="c1"># Some defaults:</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Default plot size</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># avoid to print very large arrays on screen</span>
+<span class="c1"># The commands below are to ignore certain warnings.</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;./data/ERA5-LowRes-MonthlyAvg-t2m_tp.nc&#39;</span><span class="p">)</span> <span class="c1">#open the t2m + precipitation dataset</span>
+<span class="n">ds</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<pre>&lt;xarray.Dataset&gt;
+Dimensions:    (latitude: 241, longitude: 480, time: 480)
+Coordinates:
+  * longitude  (longitude) float32 -179.625 -178.875 ... 178.875 179.625
+  * latitude   (latitude) float32 90.0 89.25 88.5 87.75 ... -88.5 -89.25 -90.0
+  * time       (time) datetime64[ns] 1979-01-01 1979-02-01 ... 2018-12-01
+Data variables:
+    tp         (time, latitude, longitude) float32 ...
+    t2m        (time, latitude, longitude) float32 ...
+Attributes:
+    Conventions:  CF-1.6
+    history:      2019-11-26 14:52:06 GMT by grib_to_netcdf-2.14.0: /opt/ecmw...</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We imported matplotlib as <code>plt</code>. From now on whenever we need matplotlib, we will call <code>plt.</code>!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+</main>

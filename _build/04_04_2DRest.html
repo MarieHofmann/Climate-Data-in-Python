@@ -1,0 +1,105 @@
+---
+redirect_from:
+  - "04-04-2drest"
+interact_link: content/D:\Users\Marie\Dokumente\01_UNI\Master\Wissenschaftliche_Mitarbeit_Fabien\chapter01\content\04_04_2DRest.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Plotting 2D Data - Other Plots
+prev_page:
+  url: /04_03_2D_Maps.html
+  title: |-
+    Plotting 2D Data - Maps
+next_page:
+  url: /04_05_Controlon2D.html
+  title: |-
+    Control on 2D Plots
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+<main class="jupyter-page">
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.4-Two-Dimensions---Other-Plots">4.4 Two Dimensions - Other Plots<a class="anchor-link" href="#4.4-Two-Dimensions---Other-Plots"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Besides a map in 2D, we could also plot the 2m temperature averaged over longitudes and grouped and averaged by month in a 2D-plot! We will do the commands step by step underneath. This is a good revision of the things we learned in the last chapter.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t2m_avg</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">t2m</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;longitude&#39;</span><span class="p">);</span> <span class="c1">#average over longitudes</span>
+<span class="n">t2m_grouped</span> <span class="o">=</span> <span class="n">t2m_avg</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;time.month&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mf">273.15</span><span class="p">;</span> <span class="c1">#groupby, average over month + convert into °C</span>
+<span class="n">t2m_grouped</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span> <span class="c1"># the &quot;T&quot; in here means &quot;transpose&quot; and exchanges the axes that are plotted:</span>
+                                            <span class="c1"># without the T, latitude would be on the x-axis, month on the y-axis</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.collections.QuadMesh at 0x1ee64c97a20&gt;</pre>
+</div>
+
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="images/04_04_2DRest_2_1.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This type of plot is called <strong>Hovmöller Diagram</strong> and is used very often in climatology. We see the distribution of the 2m temperature over the year at different latitudes.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+</main>

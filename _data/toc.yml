@@ -68,6 +68,23 @@
   - title: How to work with it
     url: 03_03_Work
 
+
+- title: Plotting
+  url: 04_Plotting
+  sections: 
+  - title: A general introduction to plotting
+    url: 04_01_IntroductionPlotting
+  - title: Plotting 1D Data
+    url: 04_02_OneDim
+  - title: Plotting 2D Data - Maps
+    url: 04_03_2D_Maps
+  - title: Plotting 2D Data - Other Plots
+    url: 04_04_2DRest
+  - title: Control on 2D Plots
+    url: 04_05_Controlon2D
+  - title: Summary
+    url: 04_06_Summary
+
 - title: Plotting Wind Data
   url: 05_PlotWindData
   sections: 
