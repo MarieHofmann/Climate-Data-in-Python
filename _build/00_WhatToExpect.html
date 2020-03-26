@@ -7,9 +7,9 @@ has_widgets: false
 title: |-
   What to expect from this book
 prev_page:
-  url: 
+  url: /WorkingwithClimateData.html
   title: |-
-    
+    Introduction
 next_page:
   url: /01_GettingStarted.html
   title: |-
@@ -43,7 +43,7 @@ This chapter will give you a quick overlook about what you can expect to learn f
 <li><p><strong>Second</strong>, this book will show, you how to download ERA-Interim data from the ECMWF server. This is the kind of climatological data, we will use for the rest of the chapters. Here are some important things to know about climate data:</p>
 </li>
 </ul>
-<h2 id="The-Data">The Data<a class="anchor-link" href="#The-Data"> </a></h2><p>ERA55 is a global atmospheric reanalysis currently available from 1979 until now. The spatial resolution of the data set is approximately 30 km on 137 vertical levels from the surface up to a height 80km. It should be available starting from 1950 in 2020.</p>
+<h2 id="The-Data">The Data<a class="anchor-link" href="#The-Data"> </a></h2><p>ERA5 is a global atmospheric reanalysis currently available from 1979 until now. The spatial resolution of the data set is approximately 30 km on 137 vertical levels from the surface up to a height 80km. It should be available starting from 1950 in 2020.</p>
 <p>So what is a reanalysis? A climate reanalysis gives a numerical description of the recent climate, produced by combining models with observations. How do they combine models and observations? This process is called <a href="https://www.ecmwf.int/assets/elearning/da/da1/story_html5.html">data assimilation</a>: We assume, that neither the model, nor the observations are perfect. Hence, we get a model forecast output and new observations and we try to combine them in a way, that the result is our "best guess" for the real state of the atmosphere. Therefore its deviation from the model forecast as well as from the observations will be minimal!</p>
 <p>In our case, the ouput (reanalysis) contains estimates of atmospheric parameters such as air temperature or pressure, and surface parameters such as precipitation, soil moisture content, and sea-surface temperature. The estimates are produced for all locations on earth, and they span a long time period that can extend back by decades or more. Climate reanalyses generate large datasets that can take up several petabytes of space. This means, ECMWF periodically uses its forecast models and data assimilation systems to 'reanalyse' archived observations, creating global data sets describing the recent history of the atmosphere, land surface and oceans. An important requirement for reanalysis is that it uses a single model version and data assimilation method, in order to produce a consistent data set for the full reanalysis period.</p>
 <h2 id="Storing-the-Data">Storing the Data<a class="anchor-link" href="#Storing-the-Data"> </a></h2><p>The ERA5 data is stored in <strong>NetCDF</strong> (Network Common Data Format) files. This is a very common format for storing scientific, mulit-dimensional data. The following will give you a quick idea of what a NetCFD File is and why it is very useful for us:</p>

@@ -1,0 +1,115 @@
+---
+redirect_from:
+  - "06-verticallyintegratedmoistureflux"
+interact_link: content/D:\Users\Marie\Dokumente\01_UNI\Master\Wissenschaftliche_Mitarbeit_Fabien\chapter01\content\06_VerticallyIntegratedMoistureFlux.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Vertically Integrated Moisture Flux
+prev_page:
+  url: /05_02_4DWindData.html
+  title: |-
+    4D Wind Data
+next_page:
+  url: /06_01_Data.html
+  title: |-
+    The Data
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+<main class="jupyter-page">
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="6.Vertically-Integrated-Moisture-Transport">6.Vertically Integrated Moisture Transport<a class="anchor-link" href="#6.Vertically-Integrated-Moisture-Transport"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this chapter, we aim to diplay moisture transports over the globe. As we will see, we can plot the integrated moisture transport in a similar way as a windfield!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Background">Background<a class="anchor-link" href="#Background"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The essence of the overall hydrological cycle is the evaporation of moisture ($E$) in one place and the precipitation in other places ($P$). In particular, evaporation exceeds precipitation over the oceans, which allows moisture to be transported by the atmosphere onto land where precipitation exceeds evapotranspiration, and the runoff flows into streams and rivers and discharges into the ocean, completing the cycle (Trenberth et al., 2011).</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This cycle can be expressed in a equation. The atmospheric conservation of moisture equation when vertically integrated in flux form is</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$$\frac{\partial w}{\partial t}+ \nabla\cdot\frac{1}{g}\int_{0}^{p_s} vq  dp = E - P$$</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Where $q$ is the specific humidity, $v$ the horizontal wind vector, $w = g^{-1}\int_{0}^{p_s}qdp$ is the precipitable water (total column water vapor), $E$ is the surface evaporation, and $P$ is the net surface precipitation rate.</p>
+<p>The second term on the left hand side of the equation is the divergence of the vertical integrated moisture flux. 
+Areas for which there is an excess of evaporation over precipitation ($E − P &gt; 0$) are moisture source regions over which the atmospheric moisture fluxes diverge (divergence term &gt;0), and other areas, where moisture fluxes converge, are moisture sink regions.</p>
+<p>The local change of the total column water vapor is therefore dependent on the local precipitation, evaporation and the moisture flux which transports moisture from neigbouring columns into the respective column.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To illustrate, how moisture is tranported on our globe and where it origins, we can either plot the integrated moisture flux or its divergence. The divergence will show us the sink and source regions of moisture as explained above.Let's have a quick look at the integrated moisture flux itself:</p>
+<p>$\frac{1}{g}\int_{0}^{p_s} vq  dp$</p>
+<p>A flux generally consists of the transported quantity, in this case the specific humidity $q$ in [kg/kg] and a velocity, in this case $v$. Integrated from the TOA @ 0 Pa to the surface @ $p_s$ and multplied with $g$, we get the unit $Pa \cdot m s^{-1}\cdot s^2 m^{-1}$, which gives $kg m^{-1}s^{-1}$ on the whole.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+</main>

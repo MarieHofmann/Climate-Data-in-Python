@@ -30,6 +30,10 @@
 # Divider for meta-pages and content page
 - divider: true
 
+- title: Introduction
+  url: WorkingwithClimateData
+  not_numbered: true
+
 # Book content
 - title: What to expect from this book
   url: 00_WhatToExpect
@@ -37,7 +41,7 @@
 
 - title: Getting started with Python
   url: 01_GettingStarted
-  sections: 
+  sections:
   - title: Jupyter-Notebook
     url: 01_01_JupyterNotebooks
   - title: A Python Introduction
@@ -60,4 +64,40 @@
     url: 03_02_ReadGetUnderstand
   - title: How to work with it
     url: 03_03_Work
+
+- title: Plotting Wind Data
+  url: 05_PlotWindData
+  sections: 
+  - title: 3D Wind Data
+    url: 05_01_3DWindData
+  - title: 4D Wind Data
+    url: 05_02_4DWindData
+
+- title: Vertically Integrated Moisture Flux
+  url: 06_VerticallyIntegratedMoistureFlux
+  sections: 
+  - title: The Data
+    url: 06_01_Data
+  - title: How to plot
+    url: 06_02_Plotting
+
+- title: Correlation Maps
+  url: 07_CorrelationMaps
+  sections: 
+  - title: One Point Correlation
+    url: 07_01_OnePoint
+  - title: Correlation Maps
+    url: 07_02_CorrelationMaps
+
+- title: Average over a sphere
+  url: 08_AverageoverSphere
+
+- title: To go further - numpy ndarrays
+  url: 09_ToGoFurther
+  sections: 
+  - title: Creating ndarrays
+    url: 09_01_CreateArrays
+  - title: Indexing
+    url: 09_02_Indexing
+
 

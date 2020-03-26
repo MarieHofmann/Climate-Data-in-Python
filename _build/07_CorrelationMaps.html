@@ -1,0 +1,120 @@
+---
+redirect_from:
+  - "07-correlationmaps"
+interact_link: content/D:\Users\Marie\Dokumente\01_UNI\Master\Wissenschaftliche_Mitarbeit_Fabien\chapter01\content\07_CorrelationMaps.ipynb
+kernel_name: python3
+has_widgets: false
+title: |-
+  Correlation Maps
+prev_page:
+  url: /06_02_Plotting.html
+  title: |-
+    How to plot
+next_page:
+  url: /07_01_OnePoint.html
+  title: |-
+    One Point Correlation
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+<main class="jupyter-page">
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="7.-Correlation-Maps">7. Correlation Maps<a class="anchor-link" href="#7.-Correlation-Maps"> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this chapter, we will learn how to produce correlation plots in 1D (scatter plots) and 2D (maps). As an example we will take the prominent feature of the North Atlantic Oscillation (NAO).</p>
+<p>Some word about this phenomena:</p>
+<p>Over the middle and high latitudes of the Northern Hemisphere, especially during the cold season months(November-April), the most prominent and recurrent pattern of atmospheric variability is the NAO (James Hurrel et al., 2003).  It is a weather phenomenon of fluctuations in the difference of atmospheric pressure at sea level (SLP) between the Icelandic Low and the Azores High. Through fluctuations in the strength of the Icelandic low and the Azores high, it controls the strength and direction of westerly winds and location of storm tracks across the North Atlantic (James Hurrel et al., 2003). It is a perfect example for correlation: in phases of positive NAO+, both the Azores High as well as the Icelandic Low are well pronounced compared to the mean over time. In contrast for phases of NAO-, both are rather weak.</p>
+<p>See the plots below from Wanner, H., Brönnimann, S., Casty, C., et al. (2001):</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>NAO+</strong></p>
+<p><img src="https://www.dropbox.com/s/1amtd1c5kwuzgtm/wanner_etal_01_naoplus.jpg?dl=1" width="80%"  align="left"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>NAO-</strong></p>
+<p><img src="https://www.dropbox.com/s/tiassrtblrryfma/wanner_etal_01_naominus.jpg?dl=1" width="80%"  align="left"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Display the plots in the notebook:</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Import the tools we are going to need today:</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># plotting library</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># numerical library</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>  <span class="c1"># netCDF library</span>
+<span class="kn">import</span> <span class="nn">cartopy</span>  <span class="c1"># Map projections libary</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>  <span class="c1"># Projections list</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># new package! this is the package at the base of xarray</span>
+<span class="c1">#from eofs.xarray import Eof  # new package! http://ajdawson.github.io/eofs/index.html</span>
+<span class="c1"># Some defaults:</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Default plot size</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># avoid to print very large arrays on screen</span>
+<span class="c1"># The commands below are to ignore certain warnings.</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+</main>
