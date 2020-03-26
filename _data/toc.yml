@@ -31,7 +31,14 @@
 - divider: true
 
 # Book content
-- title: What to expect from this Book
+- title: What to expect from this book
   url: 00_WhatToExpect
   not_numbered: true
+- title: Getting started with Python
+  url: 01_GettingStarted
+  sections: 
+  - title: Jupyter-Notebook
+    url: 01_01_JupyterNotebooks
+  - title: A Python Introduction
+    url: 01_02_PythonIntroduction
 
