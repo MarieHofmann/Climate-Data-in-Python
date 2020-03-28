@@ -61,7 +61,7 @@ use_binder_button: true                 # If 'true', add a binder button for int
 binderhub_url: https://mybinder.org                        # The URL for your BinderHub. If no URL, use ""
 binder_repo_base: https://github.com/MarieHofmann/Climate-Data-in-Python                    # The site on which the textbook repository is hosted
 binder_repo_org: Marie Hofmann                    # The username or organization that owns this repository
-binder_repo_name: Working with Climate Data in Python                        # The name of the repository on the web
+binder_repo_name: Climate-Data-in-Python                        # The name of the repository on the web
 binder_repo_branch: master                   # The branch on which your textbook is hosted.
 binderhub_interact_text: Interact              # The text that interact buttons will contain.
 
