@@ -59,7 +59,7 @@ jupyterhub_interact_text: Interact             # The text that interact buttons 
 # Binder link settings
 use_binder_button: true                 # If 'true', add a binder button for interactive links
 binderhub_url: https://mybinder.org                        # The URL for your BinderHub. If no URL, use ""
-binder_repo_base: https://github.com/                     # The site on which the textbook repository is hosted
+binder_repo_base: https://github.com/MarieHofmann/Climate-Data-in-Python                    # The site on which the textbook repository is hosted
 binder_repo_org: Marie Hofmann                    # The username or organization that owns this repository
 binder_repo_name: Working with Climate Data in Python                        # The name of the repository on the web
 binder_repo_branch: origin-master                   # The branch on which your textbook is hosted.
@@ -75,7 +75,7 @@ use_show_widgets_button: true                # If 'true', display a button to al
 
 # Download settings
 use_download_button: true                # If 'true', display a button to download a zip file for the notebook
-download_button_text: Download Climate Data                # The text that download buttons will contain
+download_button_text: Download           # The text that download buttons will contain
 
 #######################################################################################
 # Jupyter book extensions and additional features
